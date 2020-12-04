@@ -34,29 +34,27 @@ public class Task2 {
         int minIndexWord = 0;
         int maxIndexWord = words.length - 1;
         int randomIndexWord = minIndexWord + (int) (Math.random() * maxIndexWord);
-        String word = words[randomIndexWord];
 
-        return word;
+        return words[randomIndexWord];
 
     }
 
     private static String userInputReader() {
 
         Scanner scanner = new Scanner(System.in);
-        String userInputWord = scanner.nextLine().toLowerCase();
 
-        return userInputWord;
+        return scanner.nextLine().toLowerCase();
     }
 
     private static boolean checkUserWord(String randomWord, String userInputWord) {
 
-        return randomWord == userInputWord;
+        return randomWord.equals(userInputWord);
 
     }
 
     private static String mystificationTrueAnswer(String randomWord, String userInputWord) {
 
-        String mystificationWord = "";
+        StringBuilder mystificationWord = new StringBuilder();
         int mystificationWordLenght = 15;
 
         int randomWordLenght = randomWord.length();
@@ -67,7 +65,7 @@ public class Task2 {
         char symbolRandomWord;
         char symbolUserInputWord;
 
-        int loopLenght = (randomWordLenght <= userInputWordLenght) ? randomWordLenght : userInputWordLenght;
+        int loopLenght = Math.min(randomWordLenght, userInputWordLenght);
 
 
         for (int i = 0; i < loopLenght; i++) {
@@ -77,11 +75,11 @@ public class Task2 {
 
             if (symbolRandomWord == symbolUserInputWord) {
 
-                mystificationWord = mystificationWord + symbolRandomWord;
+                mystificationWord.append(symbolRandomWord);
 
             } else {
 
-                mystificationWord = mystificationWord + mystificationSymbol;
+                mystificationWord.append(mystificationSymbol);
 
             }
 
@@ -91,12 +89,12 @@ public class Task2 {
 
             for (int j = mystificationWord.length(); j < mystificationWordLenght; j++) {
 
-                mystificationWord = mystificationWord + mystificationSymbol;
+                mystificationWord.append(mystificationSymbol);
 
             }
 
         }
-        return mystificationWord;
+        return mystificationWord.toString();
     }
 
     private static void starGame(String[] words) {
@@ -108,6 +106,7 @@ public class Task2 {
         System.out.println("Угадайте это слово: ");
 
         String randomWord = randomWord(words);
+        System.out.println(randomWord);
 
         while (true) {
 
