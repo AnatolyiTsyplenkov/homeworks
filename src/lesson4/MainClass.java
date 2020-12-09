@@ -1,6 +1,5 @@
 package lesson4;
 
-
 import java.util.Random;
 import java.util.Scanner;
 
@@ -8,8 +7,8 @@ public class MainClass {
     public static final char DOT_EMPTY = '•';
     public static final char DOT_X = 'X';
     public static final char DOT_O = 'O';
-    public static int SIZE = 3;
-    public static int DOTS_TO_WIN = 3;
+    public static int SIZE = 10;
+    public static int DOTS_TO_WIN = 9;
     public static char[][] map;
     public static Scanner sc = new Scanner(System.in);
     public static Random rand = new Random();
@@ -43,15 +42,81 @@ public class MainClass {
     }
 
     public static boolean checkWin(char symb) {
-        if (map[0][0] == symb && map[0][1] == symb && map[0][2] == symb) return true;
-        if (map[1][0] == symb && map[1][1] == symb && map[1][2] == symb) return true;
-        if (map[2][0] == symb && map[2][1] == symb && map[2][2] == symb) return true;
-        if (map[0][0] == symb && map[1][0] == symb && map[2][0] == symb) return true;
-        if (map[0][1] == symb && map[1][1] == symb && map[2][1] == symb) return true;
-        if (map[0][2] == symb && map[1][2] == symb && map[2][2] == symb) return true;
-        if (map[0][0] == symb && map[1][1] == symb && map[2][2] == symb) return true;
-        if (map[2][0] == symb && map[1][1] == symb && map[0][2] == symb) return true;
-        return false;
+        return DiagonalRightCheck(symb) || diagonalLeftCheck(symb) || columnCheck(symb) || lineCheck(symb);
+    }
+
+    private static boolean lineCheck(char symb) {
+        boolean result = false;
+        int lineCheck = 0;
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (map[i][j] == symb) {
+                    lineCheck = lineCheck + 1;//00,01,02   10,11,12   20,21,22
+                } else lineCheck = 0;
+                if (lineCheck >= DOTS_TO_WIN) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private static boolean columnCheck(char symb) {
+        boolean result = false;
+        int columnCheck = 0;
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (map[j][i] == symb) {// 00,10,20  01,11,21   02,12,22
+                    columnCheck = columnCheck + 1;
+                } else columnCheck = 0;
+
+                if (columnCheck >= DOTS_TO_WIN) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    private static boolean diagonalLeftCheck(char symb) {
+        int diagonalLeftCheck = 0;
+        boolean result = false;
+
+        for (int i = 0; i < SIZE; i++) {
+            if (map[i][i] == symb) {//00,11,22
+                diagonalLeftCheck = diagonalLeftCheck + 1;
+            }
+        }
+
+        if (diagonalLeftCheck >= DOTS_TO_WIN) {
+            result = true;
+        }
+        return result;
+    }
+
+
+    private static boolean DiagonalRightCheck(char symb) {
+        int diagonalRightCheck = 0;
+        int iterator = 0;
+        boolean result = false;
+
+        for (int i = SIZE - 1; i >= 0; i--) {
+            if (map[i][iterator] == symb) {// 20,11,02
+                diagonalRightCheck = diagonalRightCheck + 1;
+            }
+            iterator = iterator + 1;
+        }
+
+        if (diagonalRightCheck >= DOTS_TO_WIN) {
+            result = true;
+        }
+
+        return result;
     }
 
     public static boolean isMapFull() {
