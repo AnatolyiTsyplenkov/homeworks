@@ -97,6 +97,8 @@ public class Task2 {
         return mystificationWord.toString();
     }
 
+
+
     private static void starGame(String[] words) {
 
         System.out.println("НАЧАЛО ИГРЫ!!!");
