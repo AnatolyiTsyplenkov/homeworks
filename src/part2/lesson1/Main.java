@@ -18,26 +18,14 @@ public class Main {
         for (Obstacles obstacle : obstacles) {
 
             for (Member member : members) {
-
-                if (obstacle.getObstaclesType().equals("Wall")) {
-                    member.jump();
-
-                    if (member.getJumpLimit() > obstacle.getLimit()) {
-                        obstacle.successfull();
-                    } else obstacle.notSuccessfull();
-
-                } else {
-                    member.run();
-
-                    if (member.getRunLimit() > obstacle.getLimit()) {
-                        obstacle.successfull();
-                    } else obstacle.notSuccessfull();
-
+                try {
+                    member.pass(obstacle);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
-
             }
-
         }
+
 
     }
 

@@ -26,4 +26,5 @@ public class Man implements Member {
     public void jump() {
         System.out.println(this.name + " прыгает!");
     }
+
 }
